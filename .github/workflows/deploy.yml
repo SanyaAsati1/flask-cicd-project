@@ -17,7 +17,10 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
                   cd /home/ubuntu/flask-cicd-project
-                   git pull origin main
+                  git pull origin main
                   pip3 install -r requirements.txt --break-system-packages
-                  pkill -f "python3 app.py" || true
-                    nohup python3 app.py &
+                   pkill -f "python3 app.py" || true
+                   sleep 1
+                   nohup python3 app.py > /tmp/flask.log 2>&1 &
+                   disown
+                       exit 0
